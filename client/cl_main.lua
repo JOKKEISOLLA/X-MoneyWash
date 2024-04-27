@@ -8,6 +8,21 @@ CreateThread(function()
             coords = v,
             distance = X.Settings.distance,
         })
+
+
+        if X.Settings.prop == "ped" then
+            lib.requestModel(X.Settings.ped)
+            local ped = CreatePed(false, GetHashKey(X.Settings.ped), v.x, v.y, v.z - 1, v.w, false, true)
+            FreezeEntityPosition(ped, true)
+            SetEntityInvincible(ped, true)
+            SetBlockingOfNonTemporaryEvents(ped, true) 
+        elseif X.Settings.prop == "object" then
+            lib.requestModel(X.Settings.object)
+            local object = CreateObject(GetHashKey(X.Settings.object), v.x, v.y, v.z, false,  false,  false)
+            PlaceObjectOnGroundProperly(object)
+		    SetEntityHeading(object, v.w)
+			FreezeEntityPosition(object, true)
+        end
          
         function point:onExit()
             if X.Settings.textui == 'ox_lib' then
@@ -16,6 +31,7 @@ CreateThread(function()
         end
          
         function point:nearby()
+
             if X.Settings.marker.enable then
                 if self.currentDistance < self.distance then
                     DrawMarker(X.Settings.marker.type, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, X.Settings.marker.size.x, X.Settings.marker.size.y, X.Settings.marker.size.z, 200, 20, 20, 50, false, true, 2, false, nil, nil, false)
