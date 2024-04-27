@@ -37,7 +37,7 @@ end)
 
 MoneywashMenu = function()
     local input = lib.inputDialog(locale('moneywash'), {
-        {type = 'number', label = locale('value'), description = locale('howmuch'), icon = X.Settings.currency, min = X.Settings.washing.mincount, max = X.Settings.washing.maxcount},
+        {type = 'number', label = locale('value'), description = locale('howmuch'), icon = X.Settings.currency, min = X.Settings.washing.mincount},
     })
 
     if input then
@@ -72,6 +72,8 @@ WashMoney = function(count)
 end
 
 Progress = function(time, count)
+    FreezeEntityPosition(cache.ped, true)
+    ClearPedTasksImmediately(cache.ped)
     if X.Settings.progress.type == 'circle' then
         if lib.progressCircle({
             duration = time * 1000,
@@ -83,7 +85,7 @@ Progress = function(time, count)
                 car = true,
                 move = true,
             },
-        }) then lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
+        }) then FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else DisableControlAction(1,25,false) FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
     else
         if lib.progressBar({
             duration = time * 1000,
@@ -94,6 +96,6 @@ Progress = function(time, count)
                 car = true,
                 move = true,
             },
-        }) then lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
+        }) then FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else DisableControlAction(1,25,false) FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
     end
 end
