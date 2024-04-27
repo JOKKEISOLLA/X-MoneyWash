@@ -10,7 +10,6 @@ end)
 
 lib.callback.register('X-MoneyWash:server:giveMoney', function(source, count, moneytype)
     exports.ox_inventory:AddItem(source, moneytype, count)
-    print(moneytype)
     SendLogs(source, locale('newactivity'), locale('someonewashed'):format(count))
 end)
 
