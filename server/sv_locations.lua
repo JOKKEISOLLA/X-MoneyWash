@@ -1,5 +1,5 @@
 WashingMachines = {
-    vec3(-1228.28, 308.56, 71.28)
+    vec4(-1210.7004, 374.8719, 79.9866, 282.5244),
 }
 
 lib.callback.register('X-MoneyWash:server:GetMachines', function(source)
