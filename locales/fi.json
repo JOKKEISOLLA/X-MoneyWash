@@ -1,0 +1,15 @@
+{
+    "moneywash": "Rahapesula",
+    "value": "Summa?",
+    "howmuch": "Kuinka paljon sitä likaista pestään?",
+    "error": "Virhe",
+    "success": "Onnistui",
+    "notenought": "Sinulla ei ole tarpeeksi likaista rahaa!",
+    "areyousure": "Oletko varma?",
+    "alert": "Peseks rahaa summalt %s€",
+    "cancel": "En halua",
+    "confirm": "Haluan",
+    "washing": "Pestään..",
+    "newactivity": "Uusi toiminta",
+    "someonewashed": "Joku pesi rahaa summalta: `%s€`"
+}
