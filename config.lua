@@ -33,4 +33,7 @@ X.Settings = {
         maxcount = 10000, -- Max count
         time = 10 -- Seconds
     },
+    prop = "object", -- object, ped or false
+    ped = "a_m_y_soucent_02", -- model or false
+    object = "prop_rub_washer_01", -- model or false
 }

@@ -12,6 +12,21 @@ CreateThread(function()
             coords = v,
             distance = X.Settings.distance,
         })
+
+
+        if X.Settings.prop == "ped" then
+            lib.requestModel(X.Settings.ped)
+            local ped = CreatePed(false, GetHashKey(X.Settings.ped), v.x, v.y, v.z - 1, v.w, false, true)
+            FreezeEntityPosition(ped, true)
+            SetEntityInvincible(ped, true)
+            SetBlockingOfNonTemporaryEvents(ped, true) 
+        elseif X.Settings.prop == "object" then
+            lib.requestModel(X.Settings.object)
+            local object = CreateObject(GetHashKey(X.Settings.object), v.x, v.y, v.z, false,  false,  false)
+            PlaceObjectOnGroundProperly(object)
+		    SetEntityHeading(object, v.w)
+			FreezeEntityPosition(object, true)
+        end
          
         function point:onExit()
             if X.Settings.textui == 'ox_lib' then
@@ -20,6 +35,7 @@ CreateThread(function()
         end
          
         function point:nearby()
+
             if X.Settings.marker.enable then
                 if self.currentDistance < self.distance then
                     DrawMarker(X.Settings.marker.type, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, X.Settings.marker.size.x, X.Settings.marker.size.y, X.Settings.marker.size.z, 200, 20, 20, 50, false, true, 2, false, nil, nil, false)
@@ -41,7 +57,7 @@ end)
 
 MoneywashMenu = function()
     local input = lib.inputDialog(locale('moneywash'), {
-        {type = 'number', label = locale('value'), description = locale('howmuch'), icon = X.Settings.currency, min = X.Settings.washing.mincount, max = X.Settings.washing.maxcount},
+        {type = 'number', label = locale('value'), description = locale('howmuch'), icon = X.Settings.currency, min = X.Settings.washing.mincount},
     })
 
     if input then
@@ -76,6 +92,8 @@ WashMoney = function(count)
 end
 
 Progress = function(time, count)
+    FreezeEntityPosition(cache.ped, true)
+    ClearPedTasksImmediately(cache.ped)
     if X.Settings.progress.type == 'circle' then
         if lib.progressCircle({
             duration = time * 1000,
@@ -87,7 +105,7 @@ Progress = function(time, count)
                 car = true,
                 move = true,
             },
-        }) then lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
+        }) then FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else DisableControlAction(1,25,false) FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
     else
         if lib.progressBar({
             duration = time * 1000,
@@ -98,6 +116,6 @@ Progress = function(time, count)
                 car = true,
                 move = true,
             },
-        }) then lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
+        }) then FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.cash) else DisableControlAction(1,25,false) FreezeEntityPosition(cache.ped, false) lib.callback.await('X-MoneyWash:server:giveMoney', false, count, X.Settings.money.dirty) end
     end
 end
