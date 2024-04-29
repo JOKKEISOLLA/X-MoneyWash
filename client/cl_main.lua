@@ -1,5 +1,5 @@
 CreateThread(function()
-    if X.Settings.textui == 'esx' or X.Settings.notify == 'esx' then
+    if X.Settings.textui == 'esx' or X.Settings.notify.script == 'esx' then
         ESX = exports['es_extended']:getSharedObject()
     end
 end)
