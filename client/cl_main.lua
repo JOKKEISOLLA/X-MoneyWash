@@ -1,4 +1,8 @@
-ESX = exports['es_extended']:getSharedObject()
+CreateThread(function()
+    if X.Settings.textui == 'esx' or X.Settings.notify == 'esx' then
+        ESX = exports['es_extended']:getSharedObject()
+    end
+end)
 lib.locale()
 
 CreateThread(function()
