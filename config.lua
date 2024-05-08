@@ -30,7 +30,8 @@ X.Settings = {
     },
     washing = {
         mincount = 1000, -- Min count
-        maxcount = 10000, -- Max count
-        time = 10 -- Seconds
+        maxcount = 100000, -- Max count
+        time = 30, -- Seconds
+        fee = 0.2 -- Pesulan maksu prosentteina (0.1 = 10%)
     },
 }
