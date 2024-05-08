@@ -4,7 +4,8 @@ X = {}
 
 X.Settings = {
     distance = 2, -- How long distance?
-    textui = 'ox_lib', -- 'ox_lib' or 'esx' 
+    textui = 'ox_lib', -- 'ox_lib' or 'esx'
+    useTarget = true, -- Set to false to use ox_lib text UI instead of ox_target
     currency = 'euro', -- 'euro' or 'dollar'
     notify = {
         script = 'ox_lib', -- 'ox_lib' or 'esx' or 'bulletin' or 'mythic_notify' or 'okokNotify' or 'custom'
