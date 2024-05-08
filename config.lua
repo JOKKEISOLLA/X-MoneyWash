@@ -4,7 +4,8 @@ X = {}
 
 X.Settings = {
     distance = 2, -- How long distance?
-    textui = 'ox_lib', -- 'ox_lib' or 'esx' 
+    textui = 'ox_lib', -- 'ox_lib' or 'esx'
+    useTarget = true, -- Set to false to use ox_lib text UI instead of ox_target
     currency = 'euro', -- 'euro' or 'dollar'
     notify = {
         script = 'ox_lib', -- 'ox_lib' or 'esx' or 'bulletin' or 'mythic_notify' or 'okokNotify' or 'custom'
@@ -30,7 +31,8 @@ X.Settings = {
     },
     washing = {
         mincount = 1000, -- Min count
-        maxcount = 10000, -- Max count
-        time = 10 -- Seconds
+        maxcount = 100000, -- Max count
+        time = 30, -- Seconds
+        fee = 0.2 -- Pesulan maksu prosentteina (0.1 = 10%)
     },
 }

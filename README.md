@@ -10,3 +10,4 @@ Optional:
 - Bulletin (notify)
 - Mythic_notify (notify)
 - ESX (notify)
+- OX_TARGET
