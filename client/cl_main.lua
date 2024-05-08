@@ -5,28 +5,64 @@ CreateThread(function()
 end)
 lib.locale()
 
-CreateThread(function()
-    local washingmachines = lib.callback.await('X-MoneyWash:server:GetMachines', false)
-    for k,v in pairs(washingmachines) do
-        exports.ox_target:addSphereZone({
-            coords = vec3(v.x, v.y, v.z),
-            radius = X.Settings.distance,
-            options = {
-                {
-                    name = 'moneywash',
-                    event = 'Zoni:silmäpesu',
-                    icon = 'fa-solid fa-dollar-sign',
-                    label = locale('moneywash'),
+if X.Settings.useTarget then
+    CreateThread(function()
+        local washingmachines = lib.callback.await('X-MoneyWash:server:GetMachines', false)
+        for k, v in pairs(washingmachines) do
+            exports.ox_target:addSphereZone({
+                coords = vec3(v.x, v.y, v.z),
+                radius = X.Settings.distance,
+                options = {
+                    {
+                        name = 'moneywash',
+                        event = 'X-MoneyWash:Target',
+                        icon = 'fa-solid fa-dollar-sign',
+                        label = locale('moneywash'),
+                    }
                 }
-            }
-        })
-    end
-end)
+            })
+        end
+    end)
 
-RegisterNetEvent("Zoni:silmäpesu")
-AddEventHandler("Zoni:silmäpesu", function()
-    MoneywashMenu()
-end)
+    RegisterNetEvent("X-MoneyWash:Target")
+    AddEventHandler("X-MoneyWash:Target", function()
+        MoneywashMenu()
+    end)
+else
+    CreateThread(function()
+        local washingmachines = lib.callback.await('X-MoneyWash:server:GetMachines', false)
+        for k, v in pairs(washingmachines) do
+            local point = lib.points.new({
+                coords = v,
+                distance = X.Settings.distance,
+            })
+
+            function point:onExit()
+                if X.Settings.textui == 'ox_lib' then
+                    lib.hideTextUI()
+                end
+            end
+
+            function point:nearby()
+                if X.Settings.marker.enable then
+                    if self.currentDistance < self.distance then
+                        DrawMarker(X.Settings.marker.type, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, X.Settings.marker.size.x, X.Settings.marker.size.y, X.Settings.marker.size.z, 200, 20, 20, 50, false, true, 2, false, nil, nil, false)
+                    end
+                end
+
+                if X.Settings.textui == 'ox_lib' then
+                    lib.showTextUI('[E] - ' .. locale('moneywash'))
+                elseif X.Settings.textui == 'esx' then
+                    ESX.ShowHelpNotification('~INPUT_PICKUP~ - ' .. locale('moneywash'))
+                end
+
+                if self.currentDistance < 1 and IsControlJustReleased(0, 38) then
+                    MoneywashMenu()
+                end
+            end
+        end
+    end)
+end
 
 MoneywashMenu = function()
     local input = lib.inputDialog(locale('moneywash'), {
